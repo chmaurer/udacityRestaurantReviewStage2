@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!--
+    Used sources:
+    Udacity courses
+    
+    On CSS/HTML:
+    (date unknown)  https://stackoverflow.com/questions/20035101/why-does-my-javascript-get-a-no-access-control-allow-origin-header-is-present
+    (date unknown)  https://developer.mozilla.org/en-US/docs/Mozilla/Mobile/Viewport_meta_tag
+    (date unknown)  https://developers.google.com/maps/documentation/javascript/error-messages#api-project-map-error
+    (date unknown)  https://www.w3schools.com/css/tryit.asp?filename=trycss3_flexbox_flex-wrap_nowrap8
+    (date unknown)  https://www.w3schools.com/css/css_rwd_mediaqueries.asp
+    (2018-05-04)    https://www.w3schools.com/css/tryit.asp?filename=tryresponsive_mediaquery
+    (date unknown)  https://css-tricks.com/a-couple-of-use-cases-for-calc/
+    (2018-05-04)    https://www.cssmatic.com/box-shadow
+    (2018-05-04)    https://stackoverflow.com/questions/1019078/how-to-set-onclick-attribute-with-value-containing-function-in-ie8
+    (2018-05-04)    https://stackoverflow.com/questions/1226714/how-to-get-the-browser-to-navigate-to-url-in-javascript
+    (2018-05-04)    https://stackoverflow.com/questions/7859336/why-are-my-css3-media-queries-not-working-on-mobile-devices
+    (2018-05-04)    https://www.w3.org/TR/wai-aria/#application
+    (2018-05-04)    https://www.marcozehe.de/2012/02/06/if-you-use-the-wai-aria-role-application-please-do-so-wisely/
+    (2018-05-04)    https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-label_attribute
+    (2018-05-05)    https://www.w3.org/TR/wai-aria-practices/examples/breadcrumb/index.html
+
+    
+    On Service worker:
+    (2018-05-04)    https://googlechrome.github.io/samples/service-worker/basic/
+    (2018-05-04)    https://www.foreach.be/blog/progressive-web-apps-using-service-workers-create-offline-page
+    (2018-05-04)    https://developers.google.com/web/fundamentals/web-app-manifest/
+    (2018-05-04)    https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
+    (2018-05-05)    http://www.htaccess-guide.com/adding-mime-types/
+    (2018-05-05)    https://github.com/jeffposnick/create-react-pwa/issues/11
+    (2018-05-05)    https://github.com/w3c/ServiceWorker/issues/915
+    (2018-05-05)    https://github.com/paulirish/caltrainschedule.io/issues/49
+    -->
+
+    <head>
+        <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/styles.css">
+        <title>Restaurant Reviews</title>
+        <script type="text/javascript">
+            if (navigator.serviceWorker) {
+                navigator.serviceWorker.register('/sw.js').then(function (req) {
+                    console.log('Installed SW');
+                }).catch(function (err) {
+                    console.log('Error installing sw' + err);
+                });
+            }
+        </script>
+    </head>
+
+    <body>
+        <header>
+            <nav>
+                <h1><a href="/">Restaurant Reviews</a></h1>
+            </nav>
+        </header>
+
+        <main id="maincontent">
+            <section id="map-container">
+                <div id="map" role="application"></div>
+            </section>
+            <section>
+                <div class="filter-options">
+                    <h2>Filter Results</h2>
+                    <div class="selections">
+                        <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()" aria-label="Select Neighborhood">
+                            <option value="all">All Neighborhoods</option>
+                        </select>
+                        <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()" aria-label="Select Cuisine">
+                            <option value="all">All Cuisines</option>
+                        </select>
+                    </div>
+                </div>
+                <ul id="restaurants-list"></ul>
+            </section>
+        </main>
+
+        <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
+        <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkYhYT7eP5c3bAcsIZ1crEKUjlJx_7hYs&libraries=places&callback=initMap"></script>        
+
+
+        <footer id="footer">
+            Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+        </footer>
+
+    </body>
+
+</html>
