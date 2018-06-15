@@ -18,11 +18,11 @@ ul, li {
     color: #333;
 }
 a {
-    color: orange;
+    color: #FFD800;
     text-decoration: none;
 }
 a:hover, a:focus {
-    color: #3397db;
+    color: #FFD999;
     text-decoration: none;
 }
 a img{
@@ -42,7 +42,7 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 }
 #footer {
     background-color: #444;
-    color: #aaa;
+    color: #fff;
     font-size: 1em;
     letter-spacing: 1px;
     padding-top: 25px;
@@ -113,11 +113,11 @@ nav h1 a, nav h2 a {
 }
 /* ====================== Restaurant Filtering ====================== */
 .filter-options select:focus{
-    border: 3px solid orange;
+    border: 3px solid #333FDB;
 }
 .filter-options{
     width:100%;
-    background-color: #3397DB;
+    background-color: #333FDB;
 }
 .filter-options .selections{
     width: 300px;
@@ -147,15 +147,15 @@ nav h1 a, nav h2 a {
 
 /* ====================== Restaurant Listing ====================== */
 button{
-    background-color: orange;
-    border: 3px solid orange;
+    background-color: #FFD800;
+    border: 3px solid #FFD800;
     padding:10px;
     margin-left: 15px;
     margin-bottom: 10px;
 }
 
 button:focus{
-    border: 3px solid #3397DB;
+    border: 3px solid #FFD800;
 }
 #restaurants-list {
     background-color: #f3f3f3;
@@ -189,7 +189,7 @@ button:focus{
     padding-left: 15px;
 }
 #restaurants-list li h1,#restaurants-list li h2, #reviews-container h3 {
-    color: #f18200;
+    color: #000000;
     font-family: Arial,sans-serif;
     font-size: 1.4em;
     font-weight: 200;
@@ -203,7 +203,7 @@ button:focus{
     font-size: 1.1em;
 }
 #restaurants-list li a {
-    background-color: orange;
+    background-color: #FFD800;
     color: #fff;
     display: inline-block;
     font-size: 1em;
@@ -245,7 +245,7 @@ button:focus{
     width: 100%;
 }
 #restaurant-name {
-    color: #f18200;
+    color: #000000;
     font-family: Arial,sans-serif;
     font-size: 2em;
     font-weight: 200;
@@ -341,8 +341,8 @@ button:focus{
     button{
         position: absolute;
         bottom: 5px;
-        background-color: orange;
-        border: 3px solid orange;
+        background-color: #FFD800;
+        border: 3px solid #FFD800;
         padding:10px;
         margin-left: 15px;
         margin-bottom: 10px;

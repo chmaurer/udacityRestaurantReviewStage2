@@ -3,16 +3,18 @@
 
     <head>
         <!-- Normalize.css for better cross-browser consistency -->
-        <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+        <link type="text/css" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Main CSS file -->
-        <link rel="stylesheet" href="css/styles.css" type="text/css">
+        <link rel="stylesheet" async="async" href="css/styles.css" type="text/css">
         <title>Restaurant Info</title>
+        <meta name="theme-color" content="#db5945">
+        <link rel="manifest" href="/manifest.json">        
         <script type="text/javascript">
             if (navigator.serviceWorker) {
-                navigator.serviceWorker.register('/sw.js').then(function (req) {
+                navigator.serviceWorker.register('sw.js').then(function(req) {
                     console.log('Installed SW');
-                }).catch(function (err) {
+                }).catch(function(err) {
                     console.log('Error installing sw' + err);
                 });
             }
@@ -72,7 +74,7 @@
         <!-- Main javascript file -->
         <script type="text/javascript" src="js/restaurant_info.js"></script>
         <!-- Google Maps -->
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkYhYT7eP5c3bAcsIZ1crEKUjlJx_7hYs&libraries=places&callback=initMap"></script>
+        <script rel="preload" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkYhYT7eP5c3bAcsIZ1crEKUjlJx_7hYs&libraries=places&callback=initMap"></script>
 
         <!-- End scripts -->
 

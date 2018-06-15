@@ -161,7 +161,7 @@ createRestaurantHTML = (restaurant) => {
     more.addEventListener("click", function () {
         window.location.href = DBHelper.urlForRestaurant(restaurant);
     }, false);
-    more.setAttribute("aria-label", "View Details for " + restaurant.name);
+    more.setAttribute("aria-label", "Go to detail page for " + restaurant.name);
     more.innerHTML = 'View Details';
     li.append(more)
 
