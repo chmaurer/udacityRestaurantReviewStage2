@@ -3,26 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-self.addEventListener('fetch', function(event) {
-  if (event.request.cache === 'only-if-cached' && event.request.mode !== 'same-origin') {
-    return;
-  }
-
-  //found this smart piece of code here https://stackoverflow.com/questions/41574723/service-worker-get-from-cache-then-update-cache
-  event.respondWith(
-    caches.open('reviews').then(function(cache) {
-      return cache.match(event.request).then(function(response) {
-        var fetchPromise = fetch(event.request).then(function(networkResponse) {
-          cache.put(event.request, networkResponse.clone());
-          return networkResponse;
-        })
-        return response || fetchPromise;
-      })
-    })
-  );
-
+self.addEventListener('activate', function(event) {
+    importScripts('https://unpkg.com/dexie@2.0.3/dist/dexie.js');
+    var db=new Dexie("reviews"); db.version(1).stores({
+      reviews: 'id,data'
+    });
 });
 
+self.addEventListener('fetch', function(event) {
+  importScripts('https://unpkg.com/dexie@2.0.3/dist/dexie.js');
+  var db = new Dexie("reviews");
+  event.respondWith(
+    db.reviews.get(event.request.url).then(function(review) {
+      return review.data;
+    }).then(function(data) {
+      var fetchPromise = fetch(event.request).then(function(networkResponse) {
+        db.reviews.put(networkResponse.clone(), event.request.url);
+        return networkResponse;
+      })
+      return data || fetchPromise;
+    })
+  );
+});
 
 self.addEventListener('install', function(event) {
   event.waitUntil(
