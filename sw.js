@@ -3,27 +3,43 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-self.addEventListener('activate', function(event) {
-    importScripts('https://unpkg.com/dexie@2.0.3/dist/dexie.js');
-    var db=new Dexie("reviews"); db.version(1).stores({
-      reviews: 'id,data'
-    });
-});
+
 
 self.addEventListener('fetch', function(event) {
-  importScripts('https://unpkg.com/dexie@2.0.3/dist/dexie.js');
-  var db = new Dexie("reviews");
-  event.respondWith(
-    db.reviews.get(event.request.url).then(function(review) {
-      return review.data;
-    }).then(function(data) {
-      var fetchPromise = fetch(event.request).then(function(networkResponse) {
-        db.reviews.put(networkResponse.clone(), event.request.url);
-        return networkResponse;
+
+  //  var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
+
+  // Open (or create) the database
+  var db;
+  var openreq = indexedDB.open('reviews', 1);
+
+  openreq.onerror = () => {
+    reject(openreq.error);
+  };
+
+  openreq.onupgradeneeded = () => {
+    // First time setup: create an empty object store
+    openreq.result.createObjectStore('reviewstore');
+  };
+
+  openreq.onsuccess = () => {
+    db = openreq.result;
+    var tx = db.transaction("reviewstore", "readwrite");
+    var store = tx.objectStore("reviewstore");
+
+    event.respondWith(
+      store.get(event.request.url).onsuccess(function(review) {
+        return review.result;
+      }).then(function(data) {
+        var fetchPromise = fetch(event.request).then(function(networkResponse) {
+          store.add(networkResponse.clone(), event.request.url);
+          return networkResponse;
+        })
+        return data || fetchPromise;
       })
-      return data || fetchPromise;
-    })
-  );
+    );
+
+  };
 });
 
 self.addEventListener('install', function(event) {
