@@ -7,21 +7,67 @@
 
 self.addEventListener('fetch', function(event) {
 
-  //  var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
+  var fetchPromise = fetch(event.request).then(function(response) {
+    var openreq = indexedDB.open('reviews', 1);
+    openreq.onupgradeneeded = () => {
+      openreq.result.createObjectStore('reviewstore');
+    };
+    openreq.onsuccess = function(e) {
+      response.blob().then(function(blob) {
+        debugger;
+        var db = e.target.result;
+        var objectStore = db.transaction("reviewstore", "readwrite").objectStore('reviewstore');
+        objectStore.add(blob, event.request.url);
+      });
+    };
+    return response;
+  }).catch(function(error) {
+    debugger;
+    var openreq = indexedDB.open('reviews', 1);
+    openreq.onupgradeneeded = () => {
+      openreq.result.createObjectStore('reviewstore');
+    };
+    debugger;
+    var objectStore = openreq.transaction("reviewstore").objectStore('reviewstore');
+    objectStore.get(event.request.url).onsuccess(function(review) {
+      debugger;
+      return JSON.parse(review);
+    })
+  })
+})
 
-  // Open (or create) the database
-  var db;
-  var openreq = indexedDB.open('reviews', 1);
+;
 
-  openreq.onerror = () => {
-    reject(openreq.error);
-  };
+/*
+var db;
+var openreq = indexedDB.open('reviews', 1);
 
-  openreq.onupgradeneeded = () => {
-    // First time setup: create an empty object store
-    openreq.result.createObjectStore('reviewstore');
-  };
+openreq.onerror = () => {
+  reject(openreq.error);
+};
 
+openreq.onupgradeneeded = () => {
+  openreq.result.createObjectStore('reviewstore');
+};
+
+openreq.onsuccess = function(event) {
+debugger;
+db = event.result;
+console.log("success: " + db);
+objectStore = db.transaction("reviewstore").objectStore('reviewstore').getAll();
+
+objectStore.get(event.request.url).onsuccess(function(review) {
+  return review.result;
+}).then(function(data) {
+  var fetchPromise = fetch(event.request).then(function(networkResponse) {
+    objectStore.add(networkResponse.clone(), event.request.url);
+    return networkResponse;
+  })
+  return data || fetchPromise;
+})
+
+};*/
+/*
   openreq.onsuccess = () => {
     db = openreq.result;
     var tx = db.transaction("reviewstore", "readwrite");
@@ -39,8 +85,7 @@ self.addEventListener('fetch', function(event) {
       })
     );
 
-  };
-});
+  };*/
 
 self.addEventListener('install', function(event) {
   event.waitUntil(
